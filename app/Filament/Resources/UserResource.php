@@ -34,8 +34,12 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->revealable()
-                    ->confirmed(),
+                    ->revealable(),
+                Forms\Components\Select::make('role')
+                    ->options(User::ROLES)
+                    ->required()
+                    ->default(User::ROLE_DEFAULT),
+                // ->confirmed(),
                 // Forms\Components\TextInput::make('password_confirmation')
                 //     ->password()
                 //     ->required()
@@ -55,10 +59,25 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('role')
+                    ->badge()
+                    ->color(fn (User $record) => match ($record->role) {
+                        User::ROLE_ADMIN => 'danger',
+                        User::ROLE_EDITOR => 'info',
+                        User::ROLE_USER => 'success',
+                    })
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
