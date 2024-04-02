@@ -10,6 +10,8 @@ use Flowframe\Trend\TrendValue;
 class TreatmentsChart extends ChartWidget
 {
     protected static ?string $heading = 'Chart';
+    protected int | string | array $columnSpan = 1;
+    protected static ?int $sort = 4;
 
     protected function getData(): array
     {
@@ -35,5 +37,11 @@ class TreatmentsChart extends ChartWidget
     protected function getType(): string
     {
         return 'line';
+    }
+
+    public static function canView(): bool
+    {
+        /** @intelephense-ignore-line */
+        return auth()->user()->isAdmin();
     }
 }
