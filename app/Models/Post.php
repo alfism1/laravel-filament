@@ -38,4 +38,9 @@ class Post extends Model
     {
         return $this->authors();
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

@@ -77,6 +77,7 @@ class UserResource extends Resource
     {
         return [
             RelationManagers\PostsRelationManager::class,
+            RelationManagers\CommentsRelationManager::class,
         ];
     }
 
