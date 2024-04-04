@@ -41,7 +41,7 @@ class TreatmentsChart extends ChartWidget
 
     public static function canView(): bool
     {
-        /** @intelephense-ignore-line */
-        return auth()->user()->isAdmin();
+        return true;
+        // return auth()->user()->isAdmin();
     }
 }

@@ -7,21 +7,11 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
-
-    const ROLE_ADMIN = 'ADMIN';
-    const ROLE_EDITOR = 'EDITOR';
-    const ROLE_USER = 'USER';
-    const ROLE_DEFAULT = self::ROLE_USER;
-
-    const ROLES = [
-        self::ROLE_ADMIN => 'Admin',
-        self::ROLE_EDITOR => 'Editor',
-        self::ROLE_USER => 'User',
-    ];
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * Determine whether the user can access the Filament admin panel.
@@ -29,17 +19,7 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
         // TODO: Implement better access control
-        return $this->role === self::ROLE_ADMIN || $this->role === self::ROLE_EDITOR;
-    }
-
-    public function isAdmin()
-    {
-        return $this->role === self::ROLE_ADMIN;
-    }
-
-    public function isEditor()
-    {
-        return $this->role === self::ROLE_EDITOR;
+        return $this->hasRole(['admin', 'editor']);
     }
 
     /**

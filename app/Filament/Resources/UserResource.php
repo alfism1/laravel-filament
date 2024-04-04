@@ -31,14 +31,14 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->revealable(),
-                Forms\Components\Select::make('role')
-                    ->options(User::ROLES)
-                    ->required()
-                    ->default(User::ROLE_DEFAULT),
+                // Forms\Components\TextInput::make('password')
+                //     ->password()
+                //     ->required()
+                //     ->revealable(),
+                Forms\Components\Select::make('roles')
+                    ->multiple()
+                    ->relationship('roles', 'name')
+                    ->preload()
                 // ->confirmed(),
                 // Forms\Components\TextInput::make('password_confirmation')
                 //     ->password()
@@ -59,15 +59,22 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('role')
-                    ->badge()
-                    ->color(fn (User $record) => match ($record->role) {
-                        User::ROLE_ADMIN => 'danger',
-                        User::ROLE_EDITOR => 'info',
-                        User::ROLE_USER => 'success',
-                    })
-                    ->sortable()
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->badge(),
+                    // ->color(fn (User $record) => match ($record->role) {
+                    //     'admin' => 'danger',
+                    //     'editor' => 'info',
+                    //     'subscriber' => 'success',
+                    // }),
+                // Tables\Columns\TextColumn::make('role')
+                //     ->badge()
+                //     ->color(fn (User $record) => match ($record->role) {
+                //         User::ROLE_ADMIN => 'danger',
+                //         User::ROLE_EDITOR => 'info',
+                //         User::ROLE_USER => 'success',
+                //     })
+                //     ->sortable()
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->searchable()
