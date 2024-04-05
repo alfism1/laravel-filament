@@ -129,6 +129,7 @@ class PostResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 ImageColumn::make('thumbnail')
                     ->label('Thumbnail')
+                    ->tooltip('Click to edit')
                     ->toggleable(),
                 ColorColumn::make('color')
                     ->label('Color')
@@ -149,6 +150,7 @@ class PostResource extends Resource
                     ->toggleable(),
                 CheckboxColumn::make('published')
                     ->label('Published')
+                    ->visible(auth()->user()->hasRole('admin'))
                     ->toggleable(),
                 TextColumn::make('created_at')
                     ->label('Created At')
